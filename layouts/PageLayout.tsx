@@ -18,7 +18,7 @@ const PageLayout: FC<Props> = ({ children }) => {
         <main className="px-4 sm:px-0 flex-grow">
 
           {/* Views (page) level loading and error handling*/}
-          <SuspenseWrapper suspenseName="layout">
+          <SuspenseWrapper suspenseName="page">
             {children}
           </SuspenseWrapper>
         </main>

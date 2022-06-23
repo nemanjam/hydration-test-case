@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react';
-import { sleep } from 'utils';
+import { delays, sleep } from 'utils';
 
 
 const useSession = () => {
-  const [userId, setUserId] = useState<number | null>(null);
+  const [userId, setUserId] = useState<number | undefined>(undefined);
   const [status, setStatus] = useState('loading');
 
   useEffect(() => {
     const run = async () => {    
-        await sleep(1)
+        await sleep(delays.session);
         setUserId(1);
-        setStatus('done')
+        setStatus('done');
     }
     
     run();

@@ -14,7 +14,6 @@ const getUser = async (id: number | undefined) => {
 
 export const useMe = () => {
   const isMounted = useIsMounted();
-
   const { data: id, status } = useSession();
 
   const query = useQuery<User | null, AxiosError>(['me', id], () => getUser(id),
