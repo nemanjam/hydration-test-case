@@ -1,7 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { User } from 'types';
-import { delays, sleep } from 'utils';
+import { sleep } from 'utils';
+import { delays } from 'my-constants';
 
 export const getMe = () => {
   return { name: 'John Doe', id: 1 };

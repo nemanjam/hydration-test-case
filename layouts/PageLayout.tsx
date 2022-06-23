@@ -15,7 +15,7 @@ const PageLayout: FC<Props> = ({ children }) => {
       <div className="min-h-screen flex flex-col">
         <Navbar />
 
-        <main className="px-4 sm:px-0 flex-grow">
+        <main className="mx-auto w-full sm:max-w-md md:max-w-xl flex-grow flex flex-col">
 
           {/* Views (page) level loading and error handling*/}
           <SuspenseWrapper suspenseName="page">

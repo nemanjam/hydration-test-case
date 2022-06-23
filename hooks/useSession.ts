@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { delays, sleep } from 'utils';
-
+import { sleep } from 'utils';
+import { delays } from 'my-constants';
 
 const useSession = () => {
   const [userId, setUserId] = useState<number | undefined>(undefined);

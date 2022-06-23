@@ -11,7 +11,7 @@ const Home: FC = () => {
   if (!data) return null;
 
   return (
-    <div className="mx-auto border border-gray-300 w-full sm:max-w-md md:max-w-xl p-4">
+    <div className="sm:border-x border-gray-300 p-4 flex-grow">
       <h1 className="mb-4">Home</h1>
       
       <h3 className="mb-4">{`User: ${me?.name}`}</h3>
