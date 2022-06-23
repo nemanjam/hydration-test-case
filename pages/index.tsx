@@ -19,12 +19,12 @@ const Home: FC = () => {
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 
-  const me = getMe();
-  const posts = getPosts(numberOfPosts);
+  const me = getMe(true);
+  const posts = getPosts(numberOfPosts, true);
 
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery(['posts'], () => posts);
-  await queryClient.prefetchQuery(['me'], () => me);
+  await queryClient.prefetchQuery(['me', me.id], () => me);
 
   return {
     props: {

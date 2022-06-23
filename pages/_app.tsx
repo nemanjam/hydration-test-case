@@ -13,14 +13,14 @@ function MyApp({
   const [queryClient] = useState(() => new QueryClient(getQueryClientConfig()));
 
   return (
-    <SuspenseWrapper suspenseName="root">
-      <QueryClientProvider client={queryClient}>
-        <Hydrate state={dehydratedState}>
+    <QueryClientProvider client={queryClient}>
+      <Hydrate state={dehydratedState}>
+        <SuspenseWrapper suspenseName="root">
           <Component {...pageProps} />
-        </Hydrate>
-        <ReactQueryDevtools />
-      </QueryClientProvider>
-    </SuspenseWrapper>
+        </SuspenseWrapper>
+      <ReactQueryDevtools />
+      </Hydrate>
+    </QueryClientProvider>
   );
 }
 

@@ -1,13 +1,15 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { Post } from 'types';
-import { sleep } from 'utils'
+import { getRandomInteger, sleep } from 'utils'
 import { delays, numberOfPosts } from 'my-constants';
 
-export const getPosts = (n: number) => {
+export const getPosts = (n: number, isSsr = false) => {
+  const getContent = (index: number) => !isSsr ? `This is post number ${index}` : 'SSR';
+
   return Array.from(Array(n).keys()).map((index) => ({
     id: index,
-    content: `This is post number ${index}`,
+    content: `${getContent(index)}, random num: ${getRandomInteger(1, 10)}`,
   }));
 };
 
