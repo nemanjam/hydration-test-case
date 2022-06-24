@@ -8,7 +8,7 @@ type Props = {
 };
 
 const SuspenseWrapper: FC<Props> = ({ children, wrapperName }) => {
-  return (<Suspense fallback={<Loading name={wrapperName} />}>{children}</Suspense>);
+  return <Suspense fallback={<Loading name={wrapperName} />}>{children}</Suspense>;
 };
 
 export default SuspenseWrapper;

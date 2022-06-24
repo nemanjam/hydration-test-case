@@ -17,7 +17,8 @@ const MeProvider: FC<ProviderProps> = ({ children }) => {
   const { data } = useMe();
   const me = data ?? null;
 
-  // const me =  null;
+  // console.log('me', me);
+
   // const memoChildren = useMemo(() => children, [me]);
 
   return <MeContext.Provider value={{ me }}>{children}</MeContext.Provider>;

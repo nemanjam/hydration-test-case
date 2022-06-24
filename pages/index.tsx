@@ -18,7 +18,6 @@ const Home: FC = () => {
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-
   const me = getMe(true);
   const posts = getPosts(numberOfPosts, true);
 

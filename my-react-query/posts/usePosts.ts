@@ -4,7 +4,7 @@ import { Post } from 'types';
 import axiosInstance from 'my-react-query/axios';
 
 const getPosts = async () => {
-  const { data } = await axiosInstance.get<Post[]>('api/posts/');  
+  const { data } = await axiosInstance.get<Post[]>('api/posts/');
   return data;
 };
 

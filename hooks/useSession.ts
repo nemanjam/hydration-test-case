@@ -7,12 +7,12 @@ const useSession = () => {
   const [status, setStatus] = useState('loading');
 
   useEffect(() => {
-    const run = async () => {    
-        await sleep(delays.session);
-        setUserId(1);
-        setStatus('done');
-    }
-    
+    const run = async () => {
+      await sleep(delays.session);
+      setUserId(1);
+      setStatus('done');
+    };
+
     run();
   }, []);
 

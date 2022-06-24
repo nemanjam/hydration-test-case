@@ -10,7 +10,6 @@ type Props = {
 };
 
 const PageLayout: FC<Props> = ({ children }) => {
-
   return (
     <SuspenseWrapper wrapperName="root">
       <MeProvider>
@@ -19,9 +18,7 @@ const PageLayout: FC<Props> = ({ children }) => {
 
           <main className="mx-auto w-full sm:max-w-md md:max-w-xl flex-grow flex flex-col">
             <ErrorBoundaryWrapper wrapperName="page">
-              <SuspenseWrapper wrapperName="page">
-                {children}
-              </SuspenseWrapper>
+              <SuspenseWrapper wrapperName="page">{children}</SuspenseWrapper>
             </ErrorBoundaryWrapper>
           </main>
 
