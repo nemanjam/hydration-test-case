@@ -18,7 +18,7 @@ function MyApp({
       <QueryClientProvider client={queryClient}>
         <Hydrate state={dehydratedState}>
           <Component {...pageProps} />
-          <ReactQueryDevtools />
+          {/* <ReactQueryDevtools /> */}
         </Hydrate>
       </QueryClientProvider>
     </ErrorBoundaryWrapper>
