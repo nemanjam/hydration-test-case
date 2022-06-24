@@ -1,10 +1,11 @@
-import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import { useState } from 'react';
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import SuspenseWrapper from 'providers/SuspenseWrapper';
 import getQueryClientConfig from 'my-react-query/queryClientConfig';
+import ErrorBoundaryWrapper from 'providers/ErrorBoundaryWrapper';
+
+import '../styles/globals.css';
 
 function MyApp({ 
   Component, 
@@ -13,14 +14,14 @@ function MyApp({
   const [queryClient] = useState(() => new QueryClient(getQueryClientConfig()));
 
   return (
+  <ErrorBoundaryWrapper wrapperName="root">
     <QueryClientProvider client={queryClient}>
       <Hydrate state={dehydratedState}>
-        <SuspenseWrapper suspenseName="root">
           <Component {...pageProps} />
-        </SuspenseWrapper>
       <ReactQueryDevtools />
       </Hydrate>
     </QueryClientProvider>
+  </ErrorBoundaryWrapper>
   );
 }
 

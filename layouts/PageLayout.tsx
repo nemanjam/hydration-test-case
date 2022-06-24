@@ -3,6 +3,7 @@ import Navbar from 'components/Navbar';
 import Footer from 'components/Footer';
 import SuspenseWrapper from 'providers/SuspenseWrapper';
 import MeProvider from 'providers/Me';
+import ErrorBoundaryWrapper from 'providers/ErrorBoundaryWrapper';
 
 type Props = {
   children: ReactNode;
@@ -11,21 +12,23 @@ type Props = {
 const PageLayout: FC<Props> = ({ children }) => {
 
   return (
-    <MeProvider>
-      <div className="min-h-screen flex flex-col">
-        <Navbar />
+    <SuspenseWrapper wrapperName="root">
+      <MeProvider>
+        <div className="min-h-screen flex flex-col">
+          <Navbar />
 
-        <main className="mx-auto w-full sm:max-w-md md:max-w-xl flex-grow flex flex-col">
+          <main className="mx-auto w-full sm:max-w-md md:max-w-xl flex-grow flex flex-col">
+            <ErrorBoundaryWrapper wrapperName="page">
+              <SuspenseWrapper wrapperName="page">
+                {children}
+              </SuspenseWrapper>
+            </ErrorBoundaryWrapper>
+          </main>
 
-          {/* Views (page) level loading and error handling*/}
-          <SuspenseWrapper suspenseName="page">
-            {children}
-          </SuspenseWrapper>
-        </main>
-
-        <Footer />
-      </div>
-    </MeProvider>
+          <Footer />
+        </div>
+      </MeProvider>
+    </SuspenseWrapper>
   );
 };
 

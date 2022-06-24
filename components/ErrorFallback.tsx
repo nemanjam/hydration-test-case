@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import { FallbackProps } from 'react-error-boundary';
-import { SuspenseType } from 'types';
+import { WrapperName } from 'types';
 
-type Props = { name: SuspenseType} & FallbackProps;
+type Props = { name: WrapperName} & FallbackProps;
 
 const ErrorFallback: FC<Props> = ({
   name,

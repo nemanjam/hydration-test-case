@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
-import { SuspenseType } from 'types';
+import { WrapperName } from 'types';
 
 type Props = {
-  name: SuspenseType;
+  name: WrapperName;
 };
 
 const Loading: FC<Props> = ({name}) => {
