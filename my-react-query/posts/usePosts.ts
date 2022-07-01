@@ -9,6 +9,8 @@ const getPosts = async () => {
 };
 
 export const usePosts = () => {
+  // IMPORTANT: must match exactly getServerSideProps
+  // await queryClient.prefetchQuery(['posts'], () => posts);
   const query = useQuery<Post[], AxiosError>(['posts'], () => getPosts());
 
   return query;

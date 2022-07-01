@@ -1,23 +1,56 @@
-# Next.js + Tailwind CSS Example
+## Reproduce suspense hydration error
 
-This example shows how to use [Tailwind CSS](https://tailwindcss.com/) [(v3.0)](https://tailwindcss.com/blog/tailwindcss-v3) with Next.js. It follows the steps outlined in the official [Tailwind docs](https://tailwindcss.com/docs/guides/nextjs).
+- useMe is dependant query `enabled: status !== 'loading'` with additional async `useSession()` call
+- usePosts has no dependant async queries so SSR === CSR, ulness refetch/invalidate
 
-## Deploy your own
+- **main point:**
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example) or preview live with [StackBlitz](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-tailwindcss)
+```ts
+// if keys don't match:
+// ['posts'] and ['posts-different']
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-tailwindcss&project-name=with-tailwindcss&repository-name=with-tailwindcss)
+// browser error:
+Uncaught Error: This Suspense boundary received an update before it finished hydrating. This caused the boundary to switch to client rendering. The usual way to fix this is to wrap the original update in startTransition.
 
-## How to use
-
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init), [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/), or [pnpm](https://pnpm.io) to bootstrap the example:
-
-```bash
-npx create-next-app --example with-tailwindcss with-tailwindcss-app
-# or
-yarn create next-app --example with-tailwindcss with-tailwindcss-app
-# or
-pnpm create next-app --example with-tailwindcss with-tailwindcss-app
+// but ALSO causes this Node.js error
+Global Query error handler.  Message: connect ECONNREFUSED 127.0.0.1:80 Error object: AxiosError: connect ECONNREFUSED 127.0.0.1:80
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1161:16) {
+  port: 80,
+  address: '127.0.0.1',
+  syscall: 'connect',
+  code: 'ECONNREFUSED',
+  errno: -111,
+...
+    headers: {
+      Accept: 'application/json, text/plain, */*',
+      'User-Agent': 'axios/0.27.2'
+    },
+    method: 'get',
+    url: 'api/posts/',
+    data: undefined
 ```
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+```ts
+// 1.
+// my-react-query/posts/usePosts.ts
+export const usePosts = () => {
+  // IMPORTANT: must match exactly getServerSideProps
+  // await queryClient.prefetchQuery(['posts'], () => posts);
+  const query = useQuery<Post[], AxiosError>(['posts'], () => getPosts());
+  return query;
+};
+
+// 2.
+// pages/index.tsx
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  const me = getMe(true);
+  const posts = getPosts(numberOfPosts, true);
+
+  const queryClient = new QueryClient();
+  // IMPORTANT: must match exactly useQuery key on client
+  await queryClient.prefetchQuery(['posts'], () => posts);
+  await queryClient.prefetchQuery(['me', me.id], () => me);
+
+  // ...
+};
+```

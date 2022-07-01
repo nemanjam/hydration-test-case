@@ -18,12 +18,13 @@ const Home: FC = () => {
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-  const me = getMe(true);
+  const me = getMe(true); // this is sync, should be async
   const posts = getPosts(numberOfPosts, true);
 
   const queryClient = new QueryClient();
+  // IMPORTANT: must match exactly useQuery key on client
   await queryClient.prefetchQuery(['posts'], () => posts);
-  await queryClient.prefetchQuery(['me', me.id], () => me);
+  await queryClient.prefetchQuery(['me', me.id], () => me); // runs only once
 
   return {
     props: {
